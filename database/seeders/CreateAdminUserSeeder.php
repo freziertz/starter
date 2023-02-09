@@ -8,6 +8,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+
 class CreateAdminUserSeeder extends Seeder
 {
     /**
@@ -18,7 +19,11 @@ class CreateAdminUserSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'Hardik Savani', 
+            'name' => 'Yahaya Frezier', 
+            'first_name' => 'Yahaya',
+            'last_name' => 'Frezier',
+            'account_id' => 1,
+            'owner' => true,
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456')
         ]);

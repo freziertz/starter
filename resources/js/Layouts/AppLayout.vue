@@ -1,30 +1,34 @@
 <script setup>
-import { ref } from 'vue';
-import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/inertia-vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
-import Banner from '@/Components/Banner.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { ref } from "vue";
+import { Inertia } from "@inertiajs/inertia";
+import { Head, Link } from "@inertiajs/inertia-vue3";
+import ApplicationMark from "@/Components/ApplicationMark.vue";
+import Banner from "@/Components/Banner.vue";
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import NavLink from "@/Components/NavLink.vue";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 
 defineProps({
-    title: String,
+  title: String,
 });
 
 const showingNavigationDropdown = ref(false);
 
 const switchToTeam = (team) => {
-    Inertia.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
+  Inertia.put(
+    route("current-team.update"),
+    {
+      team_id: team.id,
+    },
+    {
+      preserveState: false,
+    }
+  );
 };
 
 const logout = () => {
-    Inertia.post(route('logout'));
+  Inertia.post(route("logout"));
 };
 </script>
 
@@ -155,6 +159,10 @@ const logout = () => {
                                             Manage Account
                                         </div>
 
+                                        <DropdownLink :href="route('users.index')">
+                                            Manage Users
+                                        </DropdownLink>
+
                                         <DropdownLink :href="route('profile.show')">
                                             Profile
                                         </DropdownLink>
@@ -231,6 +239,11 @@ const logout = () => {
                         </div>
 
                         <div class="mt-3 space-y-1">
+
+                            <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.index')">
+                                Manage Users
+                            </ResponsiveNavLink>
+
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
                                 Profile
                             </ResponsiveNavLink>
