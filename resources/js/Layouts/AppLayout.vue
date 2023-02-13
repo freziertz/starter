@@ -163,6 +163,18 @@ const logout = () => {
                                             Manage Users
                                         </DropdownLink>
 
+                                        <DropdownLink :href="route('roles.index')">
+                                            Manage Roles
+                                        </DropdownLink>
+
+                                        <DropdownLink :href="route('accounts.index')">
+                                            Manage Accounts
+                                        </DropdownLink>
+
+                                        <DropdownLink :href="route('organizations.index')">
+                                            Manage Organizations
+                                        </DropdownLink>
+
                                         <DropdownLink :href="route('profile.show')">
                                             Profile
                                         </DropdownLink>
@@ -242,6 +254,18 @@ const logout = () => {
 
                             <ResponsiveNavLink :href="route('users.index')" :active="route().current('users.index')">
                                 Manage Users
+                            </ResponsiveNavLink>
+
+                            <ResponsiveNavLink :href="route('roles.index')" :active="route().current('roles.index')">
+                                Manage Roles
+                            </ResponsiveNavLink>
+
+                            <ResponsiveNavLink :href="route('accounts.index')" :active="route().current('accounts.index')">
+                                Manage Account
+                            </ResponsiveNavLink>
+
+                            <ResponsiveNavLink :href="route('organizations.index')" :active="route().current('organizations.index')">
+                                Manage Organization
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">

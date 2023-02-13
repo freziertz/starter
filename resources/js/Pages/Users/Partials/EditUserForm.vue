@@ -13,6 +13,7 @@ import TextInput from "@/Components/TextInput.vue";
 
 const props = defineProps({
   user_edited: Object,
+  userRoles: Object,
   roles: Array,
   accounts: Array,
   organizations: Array,
@@ -27,7 +28,7 @@ const form = useForm({
   account_id: props.user_edited.account_id,
   organization_id: 1,
   owner: props.user_edited.owner ? true : false,
-  roleIds: Object.values(props.roles),
+  roleIds: Object.values(props.userRoles),
   photo: null,
 });
 
@@ -236,7 +237,7 @@ const clearPhotoFileInput = () => {
 
             <div   v-for="role in roles" :key="role.id" class="col-span-6 sm:col-span-4">
                 <label  class="flex items-center">
-                    <Checkbox  v-model="form.roleIds" :id="role.id" :value="role.id" />
+                    <Checkbox  v-model:checked="form.roleIds" :id="role.id" :value="role.id" />
                     <span class="ml-2 text-sm text-gray-600">{{ role.name }}</span>
                 </label>
             </div>

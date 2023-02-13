@@ -36,7 +36,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return Inertia::render('Roles/View',compact('roles'));
+        return Inertia::render('Roles/Index',compact('roles'));
     }
 
     /**
@@ -64,6 +64,7 @@ class RoleController extends Controller
         ]);
 
         $role = Role::create(['name' => $request->input('name')]);
+
         $role->syncPermissions($request->input('permissionIds'));
 
         return redirect()->route('roles.index')

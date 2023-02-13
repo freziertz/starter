@@ -258,7 +258,7 @@ const clearPhotoFileInput = () => {
 
             <div   v-for="role in roles" :key="role.id" class="col-span-6 sm:col-span-4">
                 <label  class="flex items-center">
-                    <Checkbox  v-model="form.roleIds" :id="role.id" :value="role.id" />
+                    <Checkbox  v-model:checked="form.roleIds" :id="role.id" :value="role.id" />
                     <span class="ml-2 text-sm text-gray-600">{{ role.name }}</span>
                 </label>
             </div>

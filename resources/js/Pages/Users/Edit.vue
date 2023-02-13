@@ -10,6 +10,7 @@ import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfile
 defineProps({
   sessions: Array,
   roles: Array,
+  userRoles: Object,
   accounts: Array,
   organizations: Array,
   user_edited: Object,
@@ -27,7 +28,7 @@ defineProps({
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div>
-                    <EditUserForm  :roles="roles" :accounts="accounts" :organizations="organizations" :user_edited="user_edited"  />
+                    <EditUserForm  :accounts="accounts" :organizations="organizations" :roles="roles" :userRoles="userRoles" :user_edited="user_edited"  />
 
                     <SectionBorder />
                 </div>

@@ -1,15 +1,19 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-use App\Http\Controllers\HomeController;
+
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrganizationsController;
-use App\Http\Controllers\ContactsController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,7 +49,9 @@ Route::middleware([
     Route::resource('users', UserController::class);
     Route::resource('products', ProductController::class);
     Route::resource('organizations', OrganizationsController::class);
-    Route::resource('contacts', ContactsController::class);
+    // Route::resource('contacts', ContactsController::class);
+    Route::resource('accounts', AccountController::class);
+
 
 
 
@@ -64,7 +70,7 @@ Route::middleware([
 
 // Images
 
-// Route::get('/img/{path}', [ImagesController::class, 'show'])
-//     ->where('path', '.*')
-//     ->name('image');
+Route::get('/storage/{path}', [ImagesController::class, 'show'])
+    ->where('path', '.*')
+    ->name('image');
 

@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Request as Req;
-use App\Http\Controllers\Controller;
-use App\Models\Account;
-use App\Models\Organization;
+use Inertia\Inertia;
 use App\Models\User;
+use App\Models\Account;
+use Illuminate\Support\Arr;
+use App\Models\Organization;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Auth;
-//use App\Models\Role;
-// use DB;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
-// use Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Arr;
-use Inertia\Inertia;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Request as Req;
+
 
 class UserController extends Controller
 {
@@ -52,7 +49,7 @@ class UserController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'owner' => $user->owner,
-                    'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
+                    'photo' => $user->profile_photo_path ? URL::route('image', ['path' => $user->profile_photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
                     'deleted_at' => $user->deleted_at,
                 ]),
         ]);
@@ -71,8 +68,8 @@ class UserController extends Controller
         $organizations = Organization::get();
         return Inertia::render('Users/Create',compact('roles','accounts','organizations'));
 
-        // $roles = Role::pluck('name','name')->all();
-        // return view('users.create',compact('roles'));
+        // $roles = Role::pluck('id','id')->all();
+        return view('users.create',compact('roles'));
         // return Inertia::render('Users/Show');
     }
 
@@ -84,7 +81,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $test = $this->validate($request, [
+        $this->validate($request, [
             // 'name' => 'required',
             // 'email' => 'required|email|unique:users,email',
             // 'password' => 'required|same:confirm-password',
@@ -96,10 +93,23 @@ class UserController extends Controller
 
 
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
 
+        // $input['account_id'] = 1;
+        // $input['organization_id'] = 1;
+        //   $input['first_name'] = 'Frezier';
+        // $input['last_name'] = 'Beatus';
+
+
+
+
+        $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+
+
+
         $user->assignRole($request->input('roleIds'));
+
+
 
         return redirect()->route('users.index')
                         ->with('success','User created successfully');
@@ -125,17 +135,17 @@ class UserController extends Controller
      */
     public function edit($id)  {
         $user_edited = User::find($id);
-        $user = User::find($id);
+
         $account = Account::find($user_edited->account_id);
-                // $roles = Role::get();
+        $roles = Role::get();
         $accounts = Account::get();
         $organizations = Organization::get();
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user_edited->roles->pluck('name','name')->all();
+        $userRoles = $user_edited->roles->pluck('id','id')->all();
 
-        //  return Inertia::render('Users/Edit',compact('accounts', 'organizations', 'account','user_edited','roles','userRole'));
 
-        return view('users.edit',compact('user','roles','userRole'));
+         return Inertia::render('Users/Edit',compact('accounts','organizations', 'user_edited','roles','userRoles'));
+
+        // return view('users.edit',compact('user_edited','roles','userRole'));
     }
 
     /**
@@ -148,7 +158,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-        // dd('test');
+
 
 
         $this->validate($request, [
@@ -158,6 +168,8 @@ class UserController extends Controller
             // 'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             // 'roles' => 'required'
         ]);
+
+
 
 
 
@@ -173,12 +185,16 @@ class UserController extends Controller
         //     $input = Arr::except($input,array('password'));
         // }
 
+
+
         $user = User::find($id);
         $user->update($input);
 
         DB::table('model_has_roles')->where('model_id',$id)->delete();
 
-        $user->assignRole($request->input('roles'));
+
+
+        $user->assignRole($request->input('roleIds'));
 
         return redirect()->route('users.index')
                         ->with('success','User updated successfully');

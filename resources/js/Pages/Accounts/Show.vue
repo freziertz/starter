@@ -1,42 +1,49 @@
 <script setup>
 import { ref } from "vue";
 import { Inertia } from "@inertiajs/inertia";
-import { Link, useForm } from "@inertiajs/inertia-vue3";
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import AppLayout from "@/Layouts/AppLayout.vue";
+import SectionBorder from "@/Components/SectionBorder.vue";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
 import InputError from "@/Components/InputError.vue";
-import Checkbox from "@/Components/Checkbox.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 
 const props = defineProps({
-  permissions: Array,
-  role: Object,
+  account: Object,
 });
 
 const form = useForm({
-  // _method: 'PUT',
-  name: "",
-  permissionIds: [],
+  name: props.account.name,
 });
 
-const createRole = () => {
-  form.post(route("roles.store"), {
+const createAccount = () => {
+  form.post(route("accounts.store"), {
     onFinish: () => form.reset(),
   });
 };
 </script>
-
 <template>
-    <FormSection @submitted="createRole">
+    <AppLayout title="Accounts">
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Accounts
+            </h2>
+        </template>
+
+        <div>
+<div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+  <div>
+    <FormSection @submitted="createAccount">
         <template #title>
-            Role Information
+            Account Information
         </template>
 
         <template #description>
-            Create new role.
+            Create new account.
         </template>
 
         <template #form>
@@ -54,14 +61,14 @@ const createRole = () => {
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
-          <!-- Roles -->
+          <!-- country -->
 
-            <div   v-for="permission in permissions" :key="permission.id" class="col-span-6 sm:col-span-4">
+            <!-- <div   v-for="permission in permissions" :key="permission.id" class="col-span-6 sm:col-span-4">
                 <label  class="flex items-center">
-                    <Checkbox  v-model:checked="form.permissionIds" :id="permission.id" :value="permission.id" />
+                    <Checkbox  v-model="form.permissionIds" :id="permission.id" :value="permission.id" />
                     <span class="ml-2 text-sm text-gray-600">{{ permission.name }}</span>
                 </label>
-            </div>
+            </div> -->
 
         </template>
 
@@ -76,5 +83,10 @@ const createRole = () => {
         </template>
     </FormSection>
 
+                    <SectionBorder />
+                </div>
 
+            </div>
+        </div>
+    </AppLayout>
 </template>

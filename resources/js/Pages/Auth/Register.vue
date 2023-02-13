@@ -1,27 +1,32 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+import AuthenticationCard from "@/Components/AuthenticationCard.vue";
+import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import Checkbox from "@/Components/Checkbox.vue";
+import InputError from "@/Components/InputError.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TextInput from "@/Components/TextInput.vue";
+
+const props = defineProps({
+  accounts: Array,
+  organizations: Array,
+});
 
 const form = useForm({
-    name: '',
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    terms: false,
+  name: "",
+  first_name: "",
+  last_name: "",
+  email: "",
+  password: "",
+  password_confirmation: "",
+  terms: false,
 });
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
+  form.post(route("register"), {
+    onFinish: () => form.reset("password", "password_confirmation"),
+  });
 };
 </script>
 
@@ -113,6 +118,27 @@ const submit = () => {
                 />
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
+
+             <div class="mt-4">
+
+             <div class="col-span-6 sm:col-span-4">
+            <select v-model="form.account_id" :error="form.errors.account_id"  class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" label="Account">
+                <option v-for="account in accounts" :key="account.id" :value="account.id">{{ account.name }}</option>
+
+            </select>
+          </div>
+          </div>
+
+           <div class="mt-4">
+
+
+        <div class="col-span-6 sm:col-span-4">
+            <select v-model="form.organization_id" :error="form.errors.organization_id" class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm" label="Organization">
+                <option v-for="organization in organizations" :key="organization.id" :value="organization.id">{{ organization.name }}</option>
+            </select>
+          </div>
+
+          </div>
 
             <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
                 <InputLabel for="terms">
